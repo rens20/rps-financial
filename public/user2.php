@@ -1,100 +1,91 @@
+<?php
+// Placeholder for database connection
+// $conn = mysqli_connect('localhost', 'username', 'password', 'database_name');
+require_once(__DIR__ . '/../config/configuration.php');
+
+// Check if ID parameter is provided
+if (isset($_GET['id']) && !empty($_GET['id'])) {
+    // Sanitize the ID parameter to prevent SQL injection
+    $id = mysqli_real_escape_string($conn, $_GET['id']);
+
+    // Fetch data from the database based on the ID
+    $sql = "SELECT * FROM insurance_info WHERE id = '$id'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Data found, display it
+        $row = $result->fetch_assoc();
+        // Output the data in HTML format
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Data</title>
-   <style>
-        body {
+    <title>Print Insurance Information</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+  
+</head>
+<style>
+      body {
             font-family: Arial, sans-serif;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        .info-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px; 
+            max-width: 800px; 
+            margin: 5px auto; 
+            text-align: left; 
         }
 
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
 
-        th {
-            background-color: #f2f2f2;
-        }
 
-        .print-btn {
-            background-color: #4CAF50;
+        .info-container p strong {
+            display: block; 
+            font-weight: bold; 
+        }
+         #next {
+            background: #ea580c;
             color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 10px;
         }
     </style>
-</head>
-
 <body>
-    <h1>User Data</h1>
-
-    <?php
-    require_once(__DIR__ . '/../config/configuration.php');
-   
-    // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    // Fetch data from the database
-    $sql = "SELECT * FROM insurance_info";
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-        // Display data in a table
-        echo '<table>';
-        echo '<tr><th>Name</th><th>Address</th><th>Issue Date</th><th>Inception Date</th><th>Expiry Date</th><th>Year Model</th><th>Make/Description</th><th>Chassis Number</th><th>Unit Type</th><th>Engine Number</th><th>Color</th><th>Plate Number</th><th>Unit Price</th><th>Mortgagee/Financing</th></tr>';
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo '<tr>';
-            echo '<td>' . $row['name'] . '</td>';
-            echo '<td>' . $row['address'] . '</td>';
-            echo '<td>' . $row['issue_date'] . '</td>';
-            echo '<td>' . $row['inception_date'] . '</td>';
-            echo '<td>' . $row['expiry_date'] . '</td>';
-            echo '<td>' . $row['year_model'] . '</td>';
-            echo '<td>' . $row['make_description'] . '</td>';
-            echo '<td>' . $row['chassis_number'] . '</td>';
-            echo '<td>' . $row['unit_type'] . '</td>';
-            echo '<td>' . $row['engine_number'] . '</td>';
-            echo '<td>' . $row['color'] . '</td>';
-            echo '<td>' . $row['plate_number'] . '</td>';
-            echo '<td>' . $row['unit_price'] . '</td>';
-            echo '<td>' . $row['mortgagee_financing'] . '</td>';
-            echo '</tr>';
-        }
-        echo '</table>';
-    } else {
-        echo "No records found";
-    }
-
-    // Close connection
-    mysqli_close($conn);
-    ?>
-        <?php
-    echo '<form method="post"><input type="submit" name="print_btn" class="print-btn" value="Print Table"></form>';
-    ?>
-
-   
- <script>
-         document.addEventListener('DOMContentLoaded', function () {
-            var printBtn = document.querySelector('.print-btn');
-            printBtn.addEventListener('click', function () {
-                window.print();
-            });
-        });
-    </script>
+    <h1 class="font-bold text-center text-3xl mb-8 pt-4">Insurance Information</h1>
+    <div class="info-container mb-8">
+        <div>
+            <p><strong>Name of Assured:</strong> <?php echo $row['name']; ?></p>
+            <p><strong>Address:</strong> <?php echo $row['address']; ?></p>
+            <p><strong>Inception Date:</strong> <?php echo $row['inception_date']; ?></p>
+            <p><strong>Expiry Date:</strong> <?php echo $row['expiry_date']; ?></p>
+            <p><strong>Year Model:</strong> <?php echo $row['year_model']; ?></p>
+            <p><strong>Make/Description:</strong> <?php echo $row['make_description']; ?></p>
+        </div>
+        <div>
+            <p><strong>Chassis Number:</strong> <?php echo $row['chassis_number']; ?></p>
+            <p><strong>Unit Type:</strong> <?php echo $row['unit_type']; ?></p>
+            <p><strong>Engine Number:</strong> <?php echo $row['engine_number']; ?></p>
+            <p><strong>Color:</strong> <?php echo $row['color']; ?></p>
+            <p><strong>Plate Number:</strong> <?php echo $row['plate_number']; ?></p>
+            <p><strong>Unit Price (₱):</strong> <?php echo $row['unit_price']; ?></p>
+            <p><strong>Mortgagee / Financing:</strong> <?php echo $row['mortgagee_financing']; ?></p>
+        </div>
+    </div>
+ 
+    <button class="btn ml-30" id="next" onclick="window.print()">Print</button>
 </body>
 
 </html>
+<?php
+    } else {
+        // No data found for the provided ID
+        echo "No data found.";
+    }
+} else {
+    // ID parameter is missing or empty
+    echo "ID parameter is missing.";
+}
+?>

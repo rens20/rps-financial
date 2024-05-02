@@ -25,6 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['token'] = 'admin2';
                 header("Location: ./public/admin2.php");
                 break;
+            case 'admin3':
+                 $_SESSION['token'] = 'admin3';
+                header("Location: ./public/admin3.php");
+                break;
             case 'backup':
                 $_SESSION['token'] = 'backup';
                 header("Location: ./public/backup.php");

@@ -4,6 +4,11 @@ require_once(__DIR__ . '/../config/validation.php');
 if (isset($_GET['email'])) {
     // Sanitize and assign the email value
     $email = htmlspecialchars($_GET['email']);
+} else {
+    // Handle the case where email is not provided in the URL
+    // For example, redirect the user back to user.php
+    header("Location: user1.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -17,12 +22,12 @@ if (isset($_GET['email'])) {
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <style>
         .steps li {
-            width: 100%; /* Default width */
+            width: 100%; 
         }
 
         @media (min-width: 640px) {
             .steps li {
-                width: 50%; /* 2 columns on larger screens */
+                width: 50%; 
             }
         }
 
@@ -54,20 +59,12 @@ if (isset($_GET['email'])) {
             </div>
             <div class="space-y-2">
                 <h2 class="text-lg font-semibold">Follow the steps below very carefully</h2>
-                <ul class="steps">
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm" >1st step</span>
-                    </li>
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm">2nd step</span>
-                    </li>
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm">3rd step</span>
-                    </li>
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm">4th step</span>
-                    </li>
-                </ul>
+               <ul>
+                 <li>Select insurance</li>
+                <li>Issue Policy</li>
+                 <li>Printing</li>
+                 <li>Payment</li>
+               </ul>
                 <br>
                 <p class="text-sm">Please select one</p>
             </div>
@@ -147,7 +144,7 @@ if (isset($_GET['email'])) {
         const nextButton = document.getElementById("next");
         nextButton.addEventListener("click", () => {
             // Add your logic for what should happen on the "Next" button click
-            window.location.href = " ";
+            window.location.href = "user1.php";
         });
     </script>
 </body>

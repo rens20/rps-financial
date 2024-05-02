@@ -40,10 +40,10 @@ $policies = getAllInsurancePolicies();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <!-- Include any necessary CSS stylesheets -->
+    
 
     <style>
-        /* CSS styles for table */
+       
         table {
             width: 100%;
             border-collapse: collapse;
@@ -54,13 +54,22 @@ $policies = getAllInsurancePolicies();
             border: 1px solid black;
             padding: 8px;
         }
+        
+        .print {
+            background-color: orangered;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
 <body>
     <h1>Insurance Policies</h1>
 
-    <!-- <button onclick="printTable()">Print Table</button> -->
+    <button class="print" onclick="printTable()">Print Table</button>
 
     <table>
         <thead>
@@ -103,11 +112,11 @@ $policies = getAllInsurancePolicies();
         </tbody>
     </table>
 
-    <!-- <script>
+    <script>
         function printTable() {
             window.print();
         }
-    </script> -->
+    </script>
 </body>
 
 </html>

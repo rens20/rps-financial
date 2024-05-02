@@ -2,7 +2,7 @@
 // Placeholder for database connection
 // $conn = mysqli_connect('localhost', 'username', 'password', 'database_name');
 require_once(__DIR__ . '/../config/configuration.php');
-
+require_once(__DIR__ . '/../config/validation.php');
 
 // Initialize variables with default values
 $name = '';
@@ -22,6 +22,8 @@ $mortgagee_financing = '';
 
 // Check if form is submitted and assign form data to variables
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data using $_POST
+    $name = isset($_POST['name']) ? $_POST['name'] : '';
     $address = isset($_POST['address']) ? $_POST['address'] : '';
     $issue_date = isset($_POST['issue_date']) ? $_POST['issue_date'] : '';
     $inception_date = isset($_POST['inception_date']) ? $_POST['inception_date'] : '';
@@ -35,25 +37,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $plate_number = isset($_POST['plate_number']) ? $_POST['plate_number'] : '';
     $unit_price = isset($_POST['unit_price']) ? $_POST['unit_price'] : '';
     $mortgagee_financing = isset($_POST['mortgagee_financing']) ? $_POST['mortgagee_financing'] : '';
-}
 
+    // Insert data into the database
+    $sql = "INSERT INTO insurance_info (name, address, issue_date, inception_date, expiry_date, year_model, make_description, chassis_number, unit_type, engine_number, color, plate_number, unit_price, mortgagee_financing)
+            VALUES ('$name', '$address', '$issue_date', '$inception_date', '$expiry_date', '$year_model', '$make_description', '$chassis_number', '$unit_type', '$engine_number', '$color', '$plate_number', '$unit_price', '$mortgagee_financing')";
 
-// Check if email parameter exists in the URL
-if (isset($_GET['email'])) {
-    // Sanitize and display the email
-    $email = htmlspecialchars($_GET['email']);
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Sanitize and retrieve form data (already done above)
-        // Insert data into the database
-        $sql = "INSERT INTO insurance_info (name, address, issue_date, inception_date, expiry_date, year_model, make_description, chassis_number, unit_type, engine_number, color, plate_number, unit_price, mortgagee_financing)
-        VALUES ('$name', '$address', '$issue_date', '$inception_date', '$expiry_date', '$year_model', '$make_description', '$chassis_number', '$unit_type', '$engine_number', '$color', '$plate_number', '$unit_price', '$mortgagee_financing')";
-
-        if ($conn->query($sql) === TRUE) {
-            echo "New record created successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+    if ($conn->query($sql) === TRUE) {
+        // Get the ID of the last inserted record
+        $last_id = $conn->insert_id;
+        // Redirect to user2.php with the ID parameter
+       // Redirect to user1.php with the email parameter
+   header("Location: user2.php?id=$last_id");
+exit(); // Ensure no further code execution after redirection
+ // Ensure no further code execution after redirection
+    } else {
+        // Display an error message if the SQL query fails
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
 ?>
@@ -100,28 +99,12 @@ if (isset($_GET['email'])) {
 <body class="bg-slate-100 p-6">
     <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md p-6">
         <div class="space-y-4">
-            <div class="border-b border-gray-200 pb-4">
-                <p class="text-gray-600 font-semibold">Welcome, <?php echo $email; ?></p>
-            </div>
+          
             <div class="space-y-2">
                 <h2 class="text-lg font-semibold">Follow the steps below very carefully</h2>
-                <ul class="steps">
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm" >1st step</span>
-                    </li>
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm">2nd step</span>
-                    </li>
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm">3rd step</span>
-                    </li>
-                    <li class="step" onclick="toggleColor(this, event)">
-                        <span class="block text-sm">4th step</span>
-                    </li>
-                </ul>
-                <br>
                 <p class="text-sm">Please select one</p>
             </div>
+        </div>
             <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md p-6 grid grid-cols-2 gap-4">
         <!-- Left Column -->
         <div>
@@ -188,13 +171,22 @@ if (isset($_GET['email'])) {
                     <label for="unit_price" class="block text-sm font-medium text-gray-700">Unit Price (₱)</label>
                     <input type="text" id="unit_price" name="unit_price" required  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
-                       <button  type="submit" class="btn ml-30" id="next">Next</button>
+                       <button  type="submit" class="btn ml-30" id="next">save</button>
             </form>
         </div>
-        <!-- <button class="btn ml-30" id="next">Back</button> -->
-                <!-- <button  type="submit" class="btn ml-30" id="next">Next</button> -->
+       
     </div>
         </div>
     </div>
+    <script>
+      // Get the Next button by its ID
+    // const nextButton = document.getElementById('next');
+
+    // // Add an event listener to the Next button for the click event
+    // nextButton.addEventListener('click', function() {
+    //   // Redirect to the next page when the button is clicked
+    //   window.location.href = 'user2.php'; // Replace 'suer2.php' with the actual URL of your next page
+    // });
+        </script>
 </body>
 </html>
