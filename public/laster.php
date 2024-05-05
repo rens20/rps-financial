@@ -1,15 +1,16 @@
 <?php
 require_once(__DIR__ . '/../config/validation.php');
+
+// Initialize $email variable
+$email = '';
+
 // Check if email parameter exists in the URL
 if (isset($_GET['email'])) {
     // Sanitize and assign the email value
     $email = htmlspecialchars($_GET['email']);
-} else {
-    // Handle the case where email is not provided in the URL
-    // For example, redirect the user back to user.php
-    header("Location: user1.php");
-    exit();
 }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +54,9 @@ if (isset($_GET['email'])) {
 
 <body class="bg-slate-100 p-6">
     <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md p-6">
+        
         <div class="space-y-4">
+      
             <div class="border-b border-gray-200 pb-4">
                 <p class="text-gray-600 font-semibold">Welcome, <?php echo $email; ?></p>
             </div>

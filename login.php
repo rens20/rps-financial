@@ -3,6 +3,8 @@
 require_once __DIR__ . '../config/configuration.php';
 require_once __DIR__ . '../config/validation.php';
 
+session_start();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -35,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 break;
             case 'user':
                 $_SESSION['token'] = 'user';
-                header("Location: ./public/user.php");
+                header("Location: ./public/laster.php");
                 break;
             default:
                 echo "Invalid user type";

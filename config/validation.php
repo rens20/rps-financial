@@ -29,7 +29,7 @@ function Register($email, $password, $con_password)
     $insert = "INSERT INTO user_admin (email, password, con_password, type) VALUES ('$email', '$password', '$con_password', 'user')";
     if (mysqli_query($conn, $insert)) {
         $report = 'Registered Complete!';
-        header("location: ../public/user.php");
+        header("location: ../public/laster.php");
     } else {
         $report = 'Error: ' . $insert . '<br>' . mysqli_error($conn);
     }

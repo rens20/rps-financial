@@ -15,7 +15,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     if ($result->num_rows > 0) {
         // Data found, display it
         $row = $result->fetch_assoc();
-        // Output the data in HTML format
+      
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,6 +54,20 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         }
     </style>
 <body>
+    <div class="flex flex-col items-center">
+    <div class="flex space-x-4">
+       
+        <button id="step1" class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+            <span class="text-sm font-semibold">1</span>
+        </button>
+        <button id="step2" class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+            <span class="text-sm font-semibold">2</span>
+        </button>
+        <button id="step3" class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+            <span class="text-sm font-semibold">3</span>
+        </button>
+    </div>
+</div>
     <h1 class="font-bold text-center text-3xl mb-8 pt-4">Insurance Information</h1>
     <div class="info-container mb-8">
         <div>
@@ -76,6 +90,23 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     </div>
  
     <button class="btn ml-30" id="next" onclick="window.print()">Print</button>
+    <script>
+        const buttons = document.querySelectorAll('.flex button');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove background color from all buttons
+            buttons.forEach(btn => btn.classList.remove('bg-orange-500', 'text-white'));
+            // Add background color and text color to the clicked button
+            button.classList.add('bg-orange-500', 'text-white');
+            // Set a data attribute on the button to indicate the selected step
+            button.dataset.selectedStep = true;
+            // Navigate to the next page
+            const selectedStep = button.id.replace('step', '');
+            window.location.href = `user${selectedStep}.php`;
+        });
+    });
+        </script>
 </body>
 
 </html>

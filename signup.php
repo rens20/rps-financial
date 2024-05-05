@@ -1,20 +1,24 @@
 <?php
 
-require_once __DIR__ . '../config/configuration.php';
-require_once __DIR__ . '../config/validation.php';
+    require_once __DIR__ . '../config/configuration.php';
+
+    require_once __DIR__ . '../config/validation.php';
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-        
         $email = $_POST['email'];
+
         $password = $_POST['password'];
+
         $con_password = $_POST['con_password'];
 
 
         echo Register( $email, $password,$con_password);
-// Redirect to user.php with email parameter
-    header("Location: ./public/user.php?email=" . urlencode($email));
-    exit;
+
+
+        header("Location: ./public/user.php?email=" . urlencode($email));
+
+        exit;
     }
 
 
@@ -77,9 +81,10 @@ require_once __DIR__ . '../config/validation.php';
   </div>
 
   <script>
+
     function togglePasswordVisibility() {
-      var passwordField = document.getElementById("password");
-      var icon = document.querySelector(".bi-eye");
+      const passwordField = document.getElementById("password");
+      const  icon = document.querySelector(".bi-eye");
 
       if (passwordField.type === "password") {
         passwordField.type = "text";
@@ -93,8 +98,8 @@ require_once __DIR__ . '../config/validation.php';
     }
 
     function togglePassword() {
-      var passwordField = document.getElementById("con_password");
-      var icon = document.querySelector(".bi-log");
+      const passwordField = document.getElementById("con_password");
+      const  icon = document.querySelector(".bi-log");
 
       if (passwordField.type === "con_password") {
         passwordField.type = "text";
@@ -107,5 +112,6 @@ require_once __DIR__ . '../config/validation.php';
       }
     }
   </script>
+  
 </body>
 </html>

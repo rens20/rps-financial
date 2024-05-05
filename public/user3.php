@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($conn->query($sql) === TRUE) {
         
-     header("location:user.php");
+     header("location:laster.php");
 
         exit; // Stop further execution
     } else {
@@ -83,8 +83,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body class="bg-gray-100 p-4">
-
+   <div class="flex flex-col items-center">
+    <div class="flex space-x-4">
+       
+        <button id="step1" class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+            <span class="text-sm font-semibold">1</span>
+        </button>
+        <button id="step2" class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+            <span class="text-sm font-semibold">2</span>
+        </button>
+        <button id="step3" class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center">
+            <span class="text-sm font-semibold">3</span>
+        </button>
+    </div>
+</div>
     <h2 class="text-xl font-bold mb-4">Insurance Policy Details</h2>
+
     <form method="post">
         <div class="mb-8">
             <label class="block mb-1">Policy No:</label>
@@ -251,8 +265,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 console.error('Error:', error);
             });
         });
+
+        const buttons = document.querySelectorAll('.flex button');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove background color from all buttons
+            buttons.forEach(btn => btn.classList.remove('bg-orange-500', 'text-white'));
+            // Add background color and text color to the clicked button
+            button.classList.add('bg-orange-500', 'text-white');
+            // Set a data attribute on the button to indicate the selected step
+            button.dataset.selectedStep = true;
+            // Navigate to the next page
+            const selectedStep = button.id.replace('step', '');
+            window.location.href = `user${selectedStep}.php`;
+        });
+    });
     </script>
-    </script>
+    
 
 </body>
 
